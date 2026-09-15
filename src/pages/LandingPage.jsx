@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -33,31 +33,55 @@ import { useAuth } from "../context/AuthContext";
 const LandingPage = () => {
   const { isAuthenticated, isAdmin } = useAuth();
   const [activeFaq, setActiveFaq] = useState(null);
+  const [statCounts, setStatCounts] = useState([0, 0, 0, 0]);
+
+  useEffect(() => {
+    const targets = [5200, 24, 100, 12];
+    const duration = 1600;
+    const startTime = performance.now();
+    let animationFrame;
+
+    const updateCounts = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+      setStatCounts(
+        targets.map((target) => Math.floor(target * easedProgress)),
+      );
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(updateCounts);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(updateCounts);
+    return () => cancelAnimationFrame(animationFrame);
+  }, []);
 
   const stats = [
     {
       label: "Grievances Resolved",
-      value: "5,200+",
       icon: CheckCircle2,
       color: "text-[#4CAF50]",
+      format: (count) => `${count.toLocaleString()}+`,
     },
     {
       label: "Average Turnaround",
-      value: "< 24 Hours",
       icon: Clock,
       color: "text-[#35D0B5]",
+      format: (count) => `< ${count} Hours`,
     },
     {
       label: "Transparent Audit Trail",
-      value: "100%",
       icon: ShieldCheck,
       color: "text-[#FFBD58]",
+      format: (count) => `${count}%`,
     },
     {
       label: "Campus Departments",
-      value: "12+ Teams",
       icon: Layers,
       color: "text-[#3155E7]",
+      format: (count) => `${count}+ Teams`,
     },
   ];
 
@@ -490,7 +514,7 @@ const LandingPage = () => {
                 </div>
                 <div>
                   <h4 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                    {st.value}
+                    {st.format(statCounts[i])}
                   </h4>
                   <p className="text-xs text-slate-500 font-medium mt-0.5">
                     {st.label}

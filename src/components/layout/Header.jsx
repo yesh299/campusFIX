@@ -17,6 +17,7 @@ import NotificationDropdown from "../common/NotificationDropdown";
 const Header = ({ onToggleSidebar, isSidebarCollapsed }) => {
   const { user, logout, isAdmin } = useAuth();
   const [profileOpen, setProfileOpen] = useState(false);
+  const [emergencyOpen, setEmergencyOpen] = useState(false);
   const profileRef = useRef(null);
   const navigate = useNavigate();
 
@@ -74,14 +75,39 @@ const Header = ({ onToggleSidebar, isSidebarCollapsed }) => {
         </div>
 
         {/* Emergency Contact */}
-        <a
-          href="tel:7644663322"
-          aria-label="Call Security Head at 7644663322"
-          className="absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded-lg bg-rose-500 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-wider shadow-sm hover:bg-rose-600 transition-colors"
-        >
-          <PhoneCall className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          <span>Emergency</span>
-        </a>
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <button
+            type="button"
+            onClick={() => setEmergencyOpen(!emergencyOpen)}
+            aria-expanded={emergencyOpen}
+            aria-label="Call Security Head at 7644663322"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded-lg bg-rose-500 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-wider shadow-sm hover:bg-rose-600 transition-colors"
+          >
+            <PhoneCall className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>Emergency</span>
+          </button>
+
+          {emergencyOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 sm:w-72 rounded-xl bg-white p-4 text-slate-800 shadow-2xl border border-rose-100 z-50">
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-rose-600">
+                Immediate Emergency Assistance
+              </p>
+              <p className="text-sm font-bold mt-1">
+                Contact with Security Head
+              </p>
+              <p className="text-lg font-black text-[#15559A] mt-2 tracking-wide">
+                7644663322
+              </p>
+              <a
+                href="tel:7644663322"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#15559A] px-3 py-2 text-xs font-bold text-white hover:bg-[#10467e] transition-colors"
+              >
+                <PhoneCall className="w-4 h-4" />
+                Call Security Head
+              </a>
+            </div>
+          )}
+        </div>
 
         {/* Right Section: Notifications + Profile Dropdown */}
         <div className="flex items-center gap-2 sm:gap-4">
