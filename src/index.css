@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F4F6F8;
+    color: #333333;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Exact Reference Vertical Gradient from Screenshot (Deep Ocean Blue -> Slate Teal -> Warm Amber Gold) */
+.portal-bg-gradient {
+  background: linear-gradient(180deg, #184c7d 0%, #295f87 25%, #637f7a 58%, #df9f12 95%, #e8a614 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Frosted Reference Landscape Card */
+.portal-login-card {
+  background: linear-gradient(135deg, rgba(238, 244, 248, 0.96) 0%, rgba(246, 243, 230, 0.94) 100%);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Capsule Pill Input Style */
+.portal-pill-input {
+  background-color: #eaf1fc;
+  border-radius: 9999px;
+  border: 1px solid #d5e2f5;
+  transition: all 0.2s ease;
+}
+
+.portal-pill-input:focus-within {
+  background-color: #ffffff;
+  border-color: #174785;
+  box-shadow: 0 0 0 3px rgba(23, 71, 133, 0.15);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Soft Pulse */
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-soft-pulse {
+  animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
