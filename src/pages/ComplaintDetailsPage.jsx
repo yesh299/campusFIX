@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   Calendar,
@@ -17,19 +17,19 @@ import {
   Trash2,
   Share2,
   ExternalLink,
-} from 'lucide-react';
-import { complaintService } from '../services/complaintService';
-import { adminService } from '../services/adminService';
-import { useAuth } from '../context/AuthContext';
-import { useToast } from '../context/ToastContext';
-import StatusBadge from '../components/common/StatusBadge';
-import PriorityBadge from '../components/common/PriorityBadge';
-import StatusTimeline from '../components/complaints/StatusTimeline';
-import CommentThread from '../components/complaints/CommentThread';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import ConfirmationModal from '../components/common/ConfirmationModal';
-import { formatDate, formatDateTime } from '../utils/formatters';
-import { DEPARTMENTS, STATUSES, PRIORITIES } from '../utils/constants';
+} from "lucide-react";
+import { complaintService } from "../services/complaintService";
+import { adminService } from "../services/adminService";
+import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
+import StatusBadge from "../components/common/StatusBadge";
+import PriorityBadge from "../components/common/PriorityBadge";
+import StatusTimeline from "../components/complaints/StatusTimeline";
+import CommentThread from "../components/complaints/CommentThread";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import ConfirmationModal from "../components/common/ConfirmationModal";
+import { formatDate, formatDateTime } from "../utils/formatters";
+import { DEPARTMENTS, STATUSES, PRIORITIES } from "../utils/constants";
 
 const ComplaintDetailsPage = () => {
   const { id } = useParams();
@@ -47,11 +47,11 @@ const ComplaintDetailsPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Admin form states
-  const [newStatus, setNewStatus] = useState('');
-  const [statusRemarks, setStatusRemarks] = useState('');
-  const [adminNotes, setAdminNotes] = useState('');
-  const [assignedDept, setAssignedDept] = useState('');
-  const [assignedStaff, setAssignedStaff] = useState('');
+  const [newStatus, setNewStatus] = useState("");
+  const [statusRemarks, setStatusRemarks] = useState("");
+  const [adminNotes, setAdminNotes] = useState("");
+  const [assignedDept, setAssignedDept] = useState("");
+  const [assignedStaff, setAssignedStaff] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
 
   const fetchDetails = useCallback(async () => {
@@ -61,12 +61,12 @@ const ComplaintDetailsPage = () => {
       if (res.success && res.complaint) {
         setComplaint(res.complaint);
         setNewStatus(res.complaint.status);
-        setAdminNotes(res.complaint.adminNotes || '');
-        setAssignedDept(res.complaint.assignedDepartment || 'Unassigned');
-        setAssignedStaff(res.complaint.assignedTo || '');
+        setAdminNotes(res.complaint.adminNotes || "");
+        setAssignedDept(res.complaint.assignedDepartment || "Unassigned");
+        setAssignedStaff(res.complaint.assignedTo || "");
       }
     } catch (err) {
-      toast.error('Could not load complaint details');
+      toast.error("Could not load complaint details");
     } finally {
       setLoading(false);
     }
@@ -90,10 +90,10 @@ const ComplaintDetailsPage = () => {
         toast.success(`Complaint status updated to ${newStatus}`);
         setComplaint(res.complaint);
         setShowStatusModal(false);
-        setStatusRemarks('');
+        setStatusRemarks("");
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to update status');
+      toast.error(err.response?.data?.message || "Failed to update status");
     } finally {
       setIsUpdating(false);
     }
@@ -110,12 +110,12 @@ const ComplaintDetailsPage = () => {
         adminNotes: adminNotes.trim(),
       });
       if (res.success) {
-        toast.success('Department and staff successfully assigned');
+        toast.success("Department and staff successfully assigned");
         setComplaint(res.complaint);
         setShowAssignModal(false);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to assign complaint');
+      toast.error(err.response?.data?.message || "Failed to assign complaint");
     } finally {
       setIsUpdating(false);
     }
@@ -130,11 +130,11 @@ const ComplaintDetailsPage = () => {
         : await complaintService.deleteComplaint(complaint._id);
 
       if (res.success) {
-        toast.success('Complaint deleted successfully');
-        navigate(isAdmin ? '/admin/complaints' : '/complaints');
+        toast.success("Complaint deleted successfully");
+        navigate(isAdmin ? "/admin/complaints" : "/complaints");
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to delete complaint');
+      toast.error(err.response?.data?.message || "Failed to delete complaint");
     } finally {
       setIsUpdating(false);
     }
@@ -153,7 +153,7 @@ const ComplaintDetailsPage = () => {
       <div className="text-center py-16">
         <p className="text-sm font-bold text-slate-700">Complaint not found.</p>
         <Link
-          to={isAdmin ? '/admin/complaints' : '/complaints'}
+          to={isAdmin ? "/admin/complaints" : "/complaints"}
           className="mt-3 inline-block text-xs text-[#3155E7] hover:underline"
         >
           ← Return to list
@@ -163,7 +163,7 @@ const ComplaintDetailsPage = () => {
   }
 
   const imageFullUrl = complaint.image
-    ? `${import.meta.env.VITE_IMAGE_BASE_URL || 'http://localhost:5000'}${complaint.image}`
+    ? `${import.meta.env.VITE_IMAGE_BASE_URL || "https://campusfix-backend-j3vi.onrender.com"}${complaint.image}`
     : null;
 
   return (
@@ -172,11 +172,11 @@ const ComplaintDetailsPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <Link
-            to={isAdmin ? '/admin/complaints' : '/complaints'}
+            to={isAdmin ? "/admin/complaints" : "/complaints"}
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#15559A] hover:underline mb-1.5"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            {isAdmin ? 'Back to All Complaints' : 'Back to My Complaints'}
+            {isAdmin ? "Back to All Complaints" : "Back to My Complaints"}
           </Link>
 
           <div className="flex items-center gap-3">
@@ -221,7 +221,7 @@ const ComplaintDetailsPage = () => {
               </button>
             </>
           ) : (
-            complaint.status === 'Submitted' && (
+            complaint.status === "Submitted" && (
               <button
                 onClick={() => setShowDeleteModal(true)}
                 className="px-3.5 py-2 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl border border-rose-200 transition-colors flex items-center gap-1.5"
@@ -323,11 +323,14 @@ const ComplaintDetailsPage = () => {
                   Assigned Department
                 </span>
                 <p className="text-sm font-bold text-slate-900 mt-0.5">
-                  {complaint.assignedDepartment || 'Unassigned'}
+                  {complaint.assignedDepartment || "Unassigned"}
                 </p>
                 {complaint.assignedTo && (
                   <p className="text-xs text-slate-600 mt-1">
-                    Staff In-Charge: <span className="font-semibold">{complaint.assignedTo}</span>
+                    Staff In-Charge:{" "}
+                    <span className="font-semibold">
+                      {complaint.assignedTo}
+                    </span>
                   </p>
                 )}
               </div>
@@ -337,7 +340,8 @@ const ComplaintDetailsPage = () => {
                   Administrative Remarks
                 </span>
                 <p className="text-xs text-slate-700 mt-1 italic">
-                  {complaint.adminNotes || 'No administrative remarks logged yet.'}
+                  {complaint.adminNotes ||
+                    "No administrative remarks logged yet."}
                 </p>
               </div>
             </div>
@@ -347,14 +351,18 @@ const ComplaintDetailsPage = () => {
           <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#3155E7] text-white font-bold flex items-center justify-center text-sm shadow-sm">
-                {complaint.student?.name?.[0]?.toUpperCase() || 'S'}
+                {complaint.student?.name?.[0]?.toUpperCase() || "S"}
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-800">
-                  Reported by: {complaint.student?.name || 'Student'}
+                  Reported by: {complaint.student?.name || "Student"}
                 </p>
                 <p className="text-[11px] text-slate-500">
-                  ID: <span className="font-semibold text-slate-700">{complaint.student?.studentId || 'N/A'}</span> • {complaint.student?.department}
+                  ID:{" "}
+                  <span className="font-semibold text-slate-700">
+                    {complaint.student?.studentId || "N/A"}
+                  </span>{" "}
+                  • {complaint.student?.department}
                 </p>
               </div>
             </div>
@@ -465,7 +473,7 @@ const ComplaintDetailsPage = () => {
                   disabled={isUpdating}
                   className="px-4 py-2 text-xs font-bold text-white bg-[#3155E7] hover:bg-[#15559A] rounded-lg shadow-sm uppercase tracking-wider"
                 >
-                  {isUpdating ? 'Updating...' : 'Save Status'}
+                  {isUpdating ? "Updating..." : "Save Status"}
                 </button>
               </div>
             </form>
@@ -539,7 +547,7 @@ const ComplaintDetailsPage = () => {
                   disabled={isUpdating}
                   className="px-4 py-2 text-xs font-bold text-white bg-[#15559A] hover:bg-[#0E3D70] rounded-lg shadow-sm uppercase tracking-wider"
                 >
-                  {isUpdating ? 'Assigning...' : 'Assign Department'}
+                  {isUpdating ? "Assigning..." : "Assign Department"}
                 </button>
               </div>
             </form>
